@@ -146,6 +146,61 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // click listener (for short press) to launch implicit? intent
+    // for internet browser to display result of search
+    private final OnClickListener itemClickListener = new OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            // get query string from EditText and create a URL representation
+            String tag = ((TextView) view).getText().toString();
+            String urlString = getString(R.string.search_URL)
+                    + Uri.encode(mSavedSearches.getString(tag, ""), "UTF-8");
+
+            // create an intent to launch browser
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(urlString));
+            startActivity(browserIntent);
+        }
+    };
+
+    // click listener (for long press) to bring up context menu to edit, share, etc. searches
+    private final OnLongClickListener itemLongClickListener = new OnLongClickListener() {
+        @Override
+        public boolean onLongClick(View view) {
+            // get tag for previous search
+            final String tag = ((TextView) view).getText().toString();
+
+            // create alert dialog
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            builder.setTitle(getString(R.string.share_edit_delete_title, tag));
+
+            builder.setItems(R.array.dialog_items, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    switch(i){
+                        case 0:     // share
+                            shareSearch(tag);
+                            break;
+                        case 1:     // edit
+                            mTagEditText.setText(tag);
+                            mQueryEditText.setText(mSavedSearches.getString(tag, ""));
+                            break;
+                        case 2:     // delete
+                            deleteSearch(tag);
+                            break;
+                    } // end switch
+                }
+            }); // end setItems anonymous-inner-class object
+
+            // set AlertDialog's negative Button
+            builder.setNegativeButton(getString(R.string.cancel), null);
+
+            // display alert dialog
+            builder.create().show();
+
+            return true;
+        }
+    };
+
 
 
 
