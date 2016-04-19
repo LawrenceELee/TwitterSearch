@@ -80,6 +80,24 @@ public class MainActivity extends AppCompatActivity {
         updateSaveFAB(); // hide button because EditTexts are initially empty.
     }
 
+    // method to hide/show FAB based on EditTexts' input/empty
+    private final TextWatcher textWatcher = new TextWatcher() {
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            updateFAB();
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            /* not used */
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+            /* not used */
+        }
+    };
+
 
 
 }
