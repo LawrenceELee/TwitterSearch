@@ -98,6 +98,39 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    // method to hide/show FAB
+    private void updateFAB() {
+        if( mQueryEditText.getText().toString().isEmpty() ){
+            mTagEditText.getText().toString().isEmpty();
+            mSaveFloatingActionButton.hide();
+        } else {
+            mSaveFloatingActionButton.show();
+        }
+    }
+
+    // saveButtonListener save a tag-query pair into SharedPreferences
+    private final OnClickListener saveButtonListener = new OnClickListener() {
+
+        // add/upate search if neither query nor tag is empty
+        @Override
+        public void onClick(View view) {
+            String query = mQueryEditText.getText().toString();
+            String tag = mTagEditText.getText().toString();
+
+            if( !query.isEmpty() && !tag.isEmpty() ){
+                // hide virtual keyboard
+                ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE))
+                        .hideSoftInputFromWindow(view.getWindowToken(), 0);
+
+                addTaggedSearch(tag, query); // add/update the search
+                // clear edit texts
+                mQueryEditText.setText("");
+                mTagEditText.setText("");
+                mQueryEditText.requestFocus();
+            }
+        }
+    };
+
 
 
 }
