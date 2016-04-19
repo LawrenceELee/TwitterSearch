@@ -131,6 +131,22 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    // method to add new search to shared prefs file then refresh all buttons
+    private void addTaggedSearch(String tag, String query) {
+        // get shared prefs editor
+        SharedPreferences.Editor editor = mSavedSearches.edit();
+        editor.putString(tag, query);
+        editor.apply();
+
+        // if tag is new, add to and sort tags, then display updated list
+        if( !mTags.contains(tag) ){
+            mTags.add(tag);
+            Collections.sort(mTags, String.CASE_INSENSITIVE_ORDER);
+            mSearchesAdapter.notifyDataSetChanged();
+        }
+    }
+
+
 
 
 }
