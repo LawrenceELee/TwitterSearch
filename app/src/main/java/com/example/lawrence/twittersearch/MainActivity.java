@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
     private final TextWatcher textWatcher = new TextWatcher() {
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            updateFAB();
+            updateSaveFAB();
         }
 
         @Override
@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
     };
 
     // method to hide/show FAB
-    private void updateFAB() {
+    private void updateSaveFAB() {
         if( mQueryEditText.getText().toString().isEmpty() ){
             mTagEditText.getText().toString().isEmpty();
             mSaveFloatingActionButton.hide();

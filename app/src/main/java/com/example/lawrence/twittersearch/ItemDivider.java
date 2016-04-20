@@ -16,7 +16,7 @@ public class ItemDivider extends RecyclerView.ItemDecoration{
         divider = context.obtainStyledAttributes(attrs).getDrawable(0);
     }
 
-    // draws list item dividers onto RecyclerView
+    // draws list item dividers onto RecyclerView as user scrolls screen.
     @Override
     public void onDrawOver(Canvas c, RecyclerView parent, RecyclerView.State state){
         super.onDrawOver(c, parent, state);
