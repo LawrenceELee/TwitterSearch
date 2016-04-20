@@ -176,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
             builder.setItems(R.array.dialog_items, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    switch(i){
+                    switch (i) {
                         case 0:     // share
                             shareSearch(tag);
                             break;
@@ -201,7 +201,49 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    // method to delete a search after confirming on alert dialog
+    private void deleteSearch(final String tag) {   // why final?
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(getString(R.string.confirm_message, tag));
 
+        // config negative (cancel) button
+        builder.setNegativeButton(getString(R.string.cancel), null);
+
+        // config positive (delete) button
+        builder.setPositiveButton(getString(R.string.delete), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int id) {
+                mTags.remove(tag);
+
+                // get SharedPrefs editor to remove save search
+                SharedPreferences.Editor editor = mSavedSearches.edit();
+                editor.remove(tag);
+                editor.apply();
+
+                // rebind tags to RecyclerView to show updated list
+                mSearchesAdapter.notifyDataSetChanged();
+            }
+        });
+
+        builder.create().show();
+    }
+
+    // method to let user choose app for sharing url (implicit intent?)
+    private void shareSearch(String tag) {
+        String urlString = getString(R.string.search_URL) +
+                Uri.encode(mSavedSearches.getString(tag, ""), "UTF-8");
+
+        // create intent to share
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        // putExtra() is one way to send data from an activity to another activity.
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.share_search));
+        shareIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_message, urlString));
+        shareIntent.setType("text/plain");
+
+        // display apps that can share plain text
+        startActivity(Intent.createChooser(shareIntent, getString(R.string.share_search)));
+    }
 
 
 }
