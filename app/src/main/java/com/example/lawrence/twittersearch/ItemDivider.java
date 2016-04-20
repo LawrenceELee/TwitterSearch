@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+// class that defines dividers between items on a RecyclerView list.
 public class ItemDivider extends RecyclerView.ItemDecoration{
     private final Drawable divider;
 

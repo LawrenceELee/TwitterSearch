@@ -146,19 +146,22 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // click listener (for short press) to launch implicit? intent
+    // click listener (for short press) to launch implicit intent
     // for internet browser to display result of search
     private final OnClickListener itemClickListener = new OnClickListener() {
         @Override
         public void onClick(View view) {
             // get query string from EditText and create a URL representation
             String tag = ((TextView) view).getText().toString();
+            // encode translates special chars like ("/", "?", " ", etc) into 
+            // url safe chars like "%20"
             String urlString = getString(R.string.search_URL)
                     + Uri.encode(mSavedSearches.getString(tag, ""), "UTF-8");
 
-            // create an intent to launch browser
+            // create an implicit intent to launch browser
+            // Intent.ACTION_VIEW indicates to display a representation of the  Intent's data, the 2nd arg is the data to be sent
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(urlString));
-            startActivity(browserIntent);
+            startActivity(browserIntent); // start intent the same way as explicit intents
         }
     };
 
